@@ -272,11 +272,11 @@
 
       @media (max-width: 768px) {
         .step-card {
-          padding: 3rem 0 0 0;
+          padding: 0;
         }
 
         .step-content {
-          padding: 0;
+          padding: 3rem 0 0 0;
         }
 
         .step-content h3 {
@@ -554,7 +554,7 @@
           window.addEventListener("wheel", onInitialStepWheel, {
             passive: false,
           });
-        }, 200);
+        }, 100);
 
         setTimeout(() => {
           window.addEventListener("touchstart", onTouchStart, {
@@ -691,7 +691,7 @@
               window.addEventListener("wheel", onStepZeroWheel, {
                 passive: false,
               });
-            }, 200);
+            }, 100);
 
             setTimeout(() => {
               window.addEventListener("touchstart", onTouchStart, {
@@ -811,7 +811,7 @@
 
           if (!content) return;
 
-          const threshold = 0.9;
+          const threshold = 1;
           const isScrollable =
             content.scrollHeight > content.clientHeight * threshold;
 
