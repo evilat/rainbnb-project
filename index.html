@@ -28,6 +28,10 @@
         color: #f8f9fa;
       }
 
+      body.no-scroll {
+        overflow: hidden;
+      }
+
       .main-header {
         height: 100vh;
         background-color: #0d0f1a;
@@ -435,7 +439,7 @@
           card.className = "card step-card";
 
           const contentDiv = document.createElement("div");
-          contentDiv.className = "step-content";
+          contentDiv.className = "step-content overflow-hidden";
 
           const title = document.createElement("h3");
           title.textContent = `Step ${index + 1}: ${step.title}`;
@@ -550,7 +554,7 @@
           window.addEventListener("wheel", onInitialStepWheel, {
             passive: false,
           });
-        }, 100);
+        }, 200);
 
         setTimeout(() => {
           window.addEventListener("touchstart", onTouchStart, {
@@ -563,10 +567,12 @@
     <script>
       function destroyStepScroll() {
         if (typeof stepScroll !== "undefined" && stepScroll.destroy) {
+          document.getElementById("scrollContainer").scrollTo({ top: 0, behavior: "smooth" });
           stepScroll.destroy();
         }
         stepScrollInitialized = false;
       }
+
       let stepScroll = (() => {
         let container, steps, navButtons, stepHeight;
         let currentStep = 0;
@@ -590,7 +596,7 @@
           }
 
           const normalizedDirection = direction > 0 ? 1 : -1;
-          const scrollStep = window.innerHeight * 0.7;
+          const scrollStep = window.innerHeight * 0.9;
           const targetScrollTop =
             content.scrollTop + normalizedDirection * scrollStep;
           const maxScrollTop = content.scrollHeight - content.clientHeight;
@@ -685,7 +691,7 @@
               window.addEventListener("wheel", onStepZeroWheel, {
                 passive: false,
               });
-            }, 100);
+            }, 200);
 
             setTimeout(() => {
               window.addEventListener("touchstart", onTouchStart, {
@@ -794,18 +800,89 @@
           touchStartY = e.changedTouches[0].screenY;
         };
 
-        const handleTouchEnd = (e) => {
-          e.preventDefault();
+        let edgeSwipeDetected = false;
 
+        const handleTouchEnd = (e) => {
           const touchEndY = e.changedTouches[0].screenY;
           const deltaY = touchStartY - touchEndY;
 
-          if (handleScrollableStepContent(deltaY, true)) return;
+          const currentCard = steps[currentStep];
+          const content = currentCard.querySelector(".step-content");
 
-          if (deltaY > 50 && currentStep < steps.length - 1) {
-            scrollToStep(currentStep + 1);
-          } else if (deltaY < -50 && currentStep > 0) {
-            scrollToStep(currentStep - 1);
+          if (!content) return;
+
+          const threshold = 0.9;
+          const isScrollable =
+            content.scrollHeight > content.clientHeight * threshold;
+
+          const atTop = content.scrollTop <= 0;
+          const atBottom =
+            content.scrollTop + content.clientHeight >=
+            content.scrollHeight - 2;
+
+          if (!isScrollable) {
+            if (deltaY > 50 && currentStep < steps.length - 1) {
+              scrollToStep(currentStep + 1);
+            } else if (deltaY < -50 && currentStep > 0) {
+              scrollToStep(currentStep - 1);
+            }
+            return;
+          }
+
+          const swipingDown = deltaY > 50;
+          const swipingUp = deltaY < -50;
+
+          const wantsNext =
+            swipingDown && atBottom && currentStep < steps.length - 1;
+          const wantsPrev = swipingUp && atTop && currentStep > 0;
+
+          if ((wantsNext || wantsPrev) && edgeSwipeDetected) {
+            scrollToStep(currentStep + (wantsNext ? 1 : -1));
+            edgeSwipeDetected = false;
+          } else if (wantsNext || wantsPrev) {
+            edgeSwipeDetected = true;
+
+            clearTimeout(handleTouchEnd._resetTimeout);
+            handleTouchEnd._resetTimeout = setTimeout(() => {
+              edgeSwipeDetected = false;
+            }, 1000);
+          } else {
+            edgeSwipeDetected = false;
+          }
+        };
+
+        let isTouchScrollingContent = false;
+
+        const handleTouchMove = (e) => {
+          const currentCard = steps[currentStep];
+          const content = currentCard.querySelector(".step-content");
+
+          if (!content) return;
+
+          const touchY = e.changedTouches
+            ? e.changedTouches[0].screenY
+            : e.touches[0].screenY;
+          const deltaY = touchStartY - touchY;
+
+          const maxScroll = content.scrollHeight - content.clientHeight;
+
+          if (content.scrollHeight > content.clientHeight) {
+            const scrollTop = content.scrollTop;
+
+            if (
+              (deltaY > 0 && scrollTop >= maxScroll) ||
+              (deltaY < 0 && scrollTop <= 0)
+            ) {
+              isTouchScrollingContent = false;
+            } else {
+              isTouchScrollingContent = true;
+            }
+          }
+
+          if (isTouchScrollingContent) {
+            if (e.cancelable) e.stopPropagation();
+          } else {
+            if (e.cancelable) e.preventDefault();
           }
         };
 
@@ -831,6 +908,9 @@
           addListener(container, "touchend", handleTouchEnd, {
             passive: false,
           });
+          addListener(container, "touchmove", handleTouchMove, {
+            passive: false,
+          });
         };
 
         const setupArrowControls = () => {
@@ -844,6 +924,10 @@
         };
 
         const init = () => {
+          document.body.classList.add("no-scroll");
+          document
+            .querySelectorAll(".step-content")
+            .forEach((el) => el.classList.remove("overflow-hidden"));
           container = document.getElementById("scrollContainer");
           steps = document.querySelectorAll(".step-card");
           navButtons = document.querySelectorAll("#stepNav button");
@@ -857,6 +941,10 @@
         };
 
         const destroy = () => {
+          document.body.classList.remove("no-scroll");
+          document
+            .querySelectorAll(".step-content")
+            .forEach((el) => el.classList.add("overflow-hidden"));
           listeners.forEach((remove) => remove());
           listeners.length = 0;
           scrollAnimationFrame && cancelAnimationFrame(scrollAnimationFrame);
