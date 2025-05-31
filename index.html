@@ -115,7 +115,7 @@
 
       .store-badge {
         height: 40px;
-        margin: 0 0.25rem;
+        margin: 0.25rem;
         vertical-align: middle;
       }
 
@@ -284,7 +284,7 @@
         }
 
         .scroll-img {
-          content: url("swipe-bottom.png");
+          content: url("img/swipe-bottom.png");
         }
 
         .side-nav {
@@ -332,7 +332,7 @@
         ><img
           class="scroll-img"
           id="scroll-img"
-          src="scroll-bottom.png"
+          src="img/scroll-bottom.png"
           alt="Scroll Down"
       /></a>
     </header>
@@ -352,82 +352,134 @@
         const stepsData = [
           {
             title: "Install SafePal",
-            content: `
-      Download SafePal from the 
-      <a href="https://play.google.com/store/apps/details?id=io.safepal.wallet" target="_blank"><img class="store-badge" src="playstore-badge.png" alt="Play Store Badge"></a> or 
-      <a href="https://apps.apple.com/us/app/safepal-crypto-wallet-btc-nft/id1548297139" target="_blank"><img class="store-badge" src="appstore-badge.svg" alt="App Store Badge"></a>.
-    `,
-            img: "https://placehold.co/360x640/000000/FFFFFF?font=source-sans-pro&text=Install+SafePal",
+            body: [
+              {
+                type: "img",
+                src: "https://placehold.co/360x640/000000/FFFFFF?font=source-sans-pro&text=Install+SafePal",
+              },
+              {
+                type: "content",
+                html: `Download SafePal from the 
+        <a href="https://play.google.com/store/apps/details?id=io.safepal.wallet" style="text-decoration: none; " target="_blank">
+          <img class="store-badge" src="img/playstore-badge.png" alt="Play Store Badge">
+        </a> or 
+        <a href="https://apps.apple.com/app/id1548297139" style="text-decoration: none; " target="_blank">
+          <img class="store-badge" src="img/appstore-badge.svg" alt="App Store Badge">
+        </a>`,
+              },
+            ],
           },
           {
             title: "Create an Account",
-            content: `
-      Open the SafePal app after installation. Select "Create Wallet" and follow the on-screen prompts. 
-      Choose a strong password and confirm your agreement to the terms. 
-      Once completed, your wallet will be created locally on your device.
-    `,
-            img: "https://placehold.co/360x640/000000/FFFFFF?font=source-sans-pro&text=Create+Account",
+            body: [
+              {
+                type: "img",
+                src: "https://placehold.co/360x640/000000/FFFFFF?font=source-sans-pro&text=Create+Account",
+              },
+              {
+                type: "content",
+                html: `Open the SafePal app after installation. Select "Create Wallet" and follow the on-screen prompts. 
+          Choose a strong password and confirm your agreement to the terms. 
+          Once completed, your wallet will be created locally on your device.`,
+              },
+            ],
           },
           {
             title: "Backup Mnemonic Phrase",
-            content: `
-      SafePal will generate a 12/24-word mnemonic phrase. This is your master key.
-      <br><br>
-      Write these words down in order and store them in a secure, offline place. 
-      Never take a screenshot or share your phrase with anyone. Losing it means you lose access to your wallet permanently.
-    `,
-            img: "https://placehold.co/360x640/000000/FFFFFF?font=source-sans-pro&text=Backup",
+            body: [
+              {
+                type: "img",
+                src: "https://placehold.co/360x640/000000/FFFFFF?font=source-sans-pro&text=Backup",
+              },
+              {
+                type: "content",
+                html: `SafePal will generate a 12/24-word mnemonic phrase. This is your master key.
+          <br><br>
+          Write these words down in order and store them in a secure, offline place. 
+          Never take a screenshot or share your phrase with anyone. Losing it means you lose access to your wallet permanently.`,
+              },
+            ],
           },
           {
             title: "Add OPBNB",
-            content: `
-      To use dApps on the OPBNB chain, you'll need some OPBNB tokens.
-      <br><br>
-      You can send OPBNB from a centralized exchange (like Binance) to your SafePal wallet address. 
-      Make sure to select the correct OPBNB network and send at least $35 worth to cover gas and onboarding costs.
-    `,
-            img: "https://placehold.co/360x640/000000/FFFFFF?font=source-sans-pro&text=Add+OPBNB",
+            body: [
+              {
+                type: "img",
+                src: "https://placehold.co/360x640/000000/FFFFFF?font=source-sans-pro&text=Add+OPBNB",
+              },
+              {
+                type: "content",
+                html: `To use dApps on the OPBNB chain, you'll need some OPBNB tokens.
+          <br><br>
+          You can send OPBNB from a centralized exchange (like Binance) to your SafePal wallet address. 
+          Make sure to select the correct OPBNB network and send at least $35 worth to cover gas and onboarding costs.`,
+              },
+            ],
           },
           {
             title: "Explore RISE",
-            content: `
-      In the SafePal app, go to the "DApp" or "Explore" tab at the bottom.
-      <br><br>
-      In the search bar, enter: 
-      <div style="padding: 8px; border-radius: 6px; font-weight: bold;">getrise.pro</div>
-      This will open the RISE platform where you can start your journey.
-    `,
-            img: "https://placehold.co/360x640/000000/FFFFFF?font=source-sans-pro&text=Explore",
+            body: [
+              {
+                type: "img",
+                src: "https://placehold.co/360x640/000000/FFFFFF?font=source-sans-pro&text=Explore",
+              },
+              {
+                type: "content",
+                html: `In the SafePal app, go to the "DApp" or "Explore" tab at the bottom.
+        <br><br>
+        In the search bar, enter: 
+        <div style="padding: 8px; border-radius: 6px; font-weight: bold;">getrise.pro</div>
+        This will open the RISE platform where you can start your journey.`,
+              },
+            ],
           },
           {
             title: "Login",
-            content: `
-      On the RISE website (getrise.pro), click the "Connect Wallet" button.
-      <br><br>
-      Choose SafePal as your wallet provider. Confirm the connection in the app.
-      You are now logged in and ready to explore features within RISE.
-    `,
-            img: "https://placehold.co/360x640/000000/FFFFFF?font=source-sans-pro&text=Login",
+            body: [
+              {
+                type: "img",
+                src: "https://placehold.co/360x640/000000/FFFFFF?font=source-sans-pro&text=Login",
+              },
+              {
+                type: "content",
+                html: `On the RISE website (getrise.pro), click the "Connect Wallet" button.
+          <br><br>
+          Choose SafePal as your wallet provider. Confirm the connection in the app.
+          You are now logged in and ready to explore features within RISE.`,
+              },
+            ],
           },
           {
             title: "Upgrade to Ambassador",
-            content: `
-      Inside the RISE dashboard, go to your account section.
-      <br><br>
-      Follow the steps to upgrade your level — this may include completing tasks, referring others, and holding a certain amount of OPBNB.
-      <br><br>
-      Reach the Ambassador level to unlock advanced features and higher earning potential.
-    `,
-            img: "https://placehold.co/360x640/000000/FFFFFF?font=source-sans-pro&text=Upgrade",
+            body: [
+              {
+                type: "img",
+                src: "https://placehold.co/360x640/000000/FFFFFF?font=source-sans-pro&text=Upgrade",
+              },
+              {
+                type: "content",
+                html: `Inside the RISE dashboard, go to your account section.
+          <br><br>
+          Follow the steps to upgrade your level — this may include completing tasks, referring others, and holding a certain amount of OPBNB.
+          <br><br>
+          Reach the Ambassador level to unlock advanced features and higher earning potential.`,
+              },
+            ],
           },
           {
             title: "Share Referral Code",
-            content: `
-      After becoming an Ambassador, navigate to your profile or dashboard to find your unique referral code.
-      <br><br>
-      Copy this code and share it with your network. When others sign up using your code, you’ll earn rewards and bonuses.
-    `,
-            img: "https://placehold.co/360x640/000000/FFFFFF?font=source-sans-pro&text=Refer+your+friends",
+            body: [
+              {
+                type: "img",
+                src: "https://placehold.co/360x640/000000/FFFFFF?font=source-sans-pro&text=Refer+your+friends",
+              },
+              {
+                type: "content",
+                html: `After becoming an Ambassador, navigate to your profile or dashboard to find your unique referral code.
+          <br><br>
+          Copy this code and share it with your network. When others sign up using your code, you’ll earn rewards and bonuses.`,
+              },
+            ],
           },
         ];
 
@@ -445,17 +497,19 @@
           title.textContent = `Step ${index + 1}: ${step.title}`;
           contentDiv.appendChild(title);
 
-          if (step.img) {
-            const img = document.createElement("img");
-            img.src = step.img;
-            img.alt = step.title;
-            img.className = "step-img";
-            contentDiv.appendChild(img);
-          }
-
-          const paragraph = document.createElement("p");
-          paragraph.innerHTML = step.content;
-          contentDiv.appendChild(paragraph);
+          step.body.forEach((block) => {
+            if (block.type === "content") {
+              const p = document.createElement("p");
+              p.innerHTML = block.html;
+              contentDiv.appendChild(p);
+            } else if (block.type === "img") {
+              const img = document.createElement("img");
+              img.src = block.src;
+              img.alt = step.title;
+              img.className = "step-img";
+              contentDiv.appendChild(img);
+            }
+          });
 
           card.appendChild(contentDiv);
           scrollContainer.appendChild(card);
@@ -567,7 +621,9 @@
     <script>
       function destroyStepScroll() {
         if (typeof stepScroll !== "undefined" && stepScroll.destroy) {
-          document.getElementById("scrollContainer").scrollTo({ top: 0, behavior: "smooth" });
+          document
+            .getElementById("scrollContainer")
+            .scrollTo({ top: 0, behavior: "smooth" });
           stepScroll.destroy();
         }
         stepScrollInitialized = false;
@@ -673,7 +729,6 @@
 
               if (deltaY > 50) {
                 cleanupListeners();
-                scrollToStep(1);
               } else if (deltaY < -50) {
                 cleanupListeners();
                 window.scrollBy({ top: -94, left: 0, behavior: "smooth" });
@@ -808,10 +863,9 @@
 
           const currentCard = steps[currentStep];
           const content = currentCard.querySelector(".step-content");
-
           if (!content) return;
 
-          const threshold = 1;
+          const threshold = 0.9;
           const isScrollable =
             content.scrollHeight > content.clientHeight * threshold;
 
@@ -820,32 +874,32 @@
             content.scrollTop + content.clientHeight >=
             content.scrollHeight - 2;
 
-          if (!isScrollable) {
-            if (deltaY > 50 && currentStep < steps.length - 1) {
-              scrollToStep(currentStep + 1);
-            } else if (deltaY < -50 && currentStep > 0) {
-              scrollToStep(currentStep - 1);
-            }
-            return;
-          }
-
           const swipingDown = deltaY > 50;
           const swipingUp = deltaY < -50;
 
-          const wantsNext =
-            swipingDown && atBottom && currentStep < steps.length - 1;
-          const wantsPrev = swipingUp && atTop && currentStep > 0;
+          const wantsNext = swipingDown && currentStep < steps.length - 1;
+          const wantsPrev = swipingUp && currentStep > 0;
 
-          if ((wantsNext || wantsPrev) && edgeSwipeDetected) {
-            scrollToStep(currentStep + (wantsNext ? 1 : -1));
-            edgeSwipeDetected = false;
-          } else if (wantsNext || wantsPrev) {
-            edgeSwipeDetected = true;
+          if (!isScrollable) {
+            if (wantsNext) scrollToStep(currentStep + 1);
+            else if (wantsPrev) scrollToStep(currentStep - 1);
+            return;
+          }
 
-            clearTimeout(handleTouchEnd._resetTimeout);
-            handleTouchEnd._resetTimeout = setTimeout(() => {
+          const reachedEdgeAndWantsNext = swipingDown && atBottom && wantsNext;
+          const reachedEdgeAndWantsPrev = swipingUp && atTop && wantsPrev;
+
+          if (reachedEdgeAndWantsNext || reachedEdgeAndWantsPrev) {
+            if (edgeSwipeDetected) {
+              scrollToStep(currentStep + (reachedEdgeAndWantsNext ? 1 : -1));
               edgeSwipeDetected = false;
-            }, 1000);
+            } else {
+              edgeSwipeDetected = true;
+              clearTimeout(handleTouchEnd._resetTimeout);
+              handleTouchEnd._resetTimeout = setTimeout(() => {
+                edgeSwipeDetected = false;
+              }, 1000);
+            }
           } else {
             edgeSwipeDetected = false;
           }
@@ -906,9 +960,6 @@
             passive: false,
           });
           addListener(container, "touchend", handleTouchEnd, {
-            passive: false,
-          });
-          addListener(container, "touchmove", handleTouchMove, {
             passive: false,
           });
         };
