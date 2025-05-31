@@ -579,24 +579,31 @@
         };
 
         let touchStartY = 0;
+        let touchStartTime = 0;
 
         const onTouchStart = (e) => {
           touchStartY = e.changedTouches[0].screenY;
+          touchStartTime = Date.now();
         };
-
+        
         const onTouchEnd = (e) => {
           const touchEndY = e.changedTouches[0].screenY;
+          const touchEndTime = Date.now();
           const deltaY = touchStartY - touchEndY;
-
+          const deltaTime = touchEndTime - touchStartTime;
+          const velocity = deltaY / deltaTime;
+        
+          const minVelocity = 0.3;
+        
           removeInitialListeners();
-
-          if (deltaY > 50) {
+        
+          if (velocity > minVelocity) {
             stepScroll.scrollToStep(1);
-          } else if (deltaY < -50) {
+          } else if (velocity < -minVelocity) {
             window.scrollBy({ top: -94, left: 0, behavior: "smooth" });
             destroyStepScroll();
           }
-        };
+        };        
 
         function removeInitialListeners() {
           window.removeEventListener("wheel", onInitialStepWheel);
@@ -636,6 +643,7 @@
         let lastWheelTime = 0;
         let touchStartY = 0;
         let touchEndY = 0;
+        let touchStartTime = 0;
         let stepTimeout;
 
         const listeners = [];
@@ -721,20 +729,26 @@
 
             const onTouchStart = (e) => {
               touchStartY = e.changedTouches[0].screenY;
+              touchStartTime = Date.now();
             };
-
+            
             const onTouchEnd = (e) => {
               const touchEndY = e.changedTouches[0].screenY;
+              const touchEndTime = Date.now();
               const deltaY = touchStartY - touchEndY;
-
-              if (deltaY > 50) {
+              const deltaTime = touchEndTime - touchStartTime;
+              const velocity = deltaY / deltaTime;
+            
+              const minVelocity = 0.3;
+            
+              if (velocity > minVelocity) {
                 cleanupListeners();
-              } else if (deltaY < -50) {
+              } else if (velocity < -minVelocity) {
                 cleanupListeners();
                 window.scrollBy({ top: -94, left: 0, behavior: "smooth" });
                 destroyStepScroll();
               }
-            };
+            };            
 
             const cleanupListeners = () => {
               window.removeEventListener("wheel", onStepZeroWheel);
@@ -853,42 +867,44 @@
 
         const handleTouchStart = (e) => {
           touchStartY = e.changedTouches[0].screenY;
+          touchStartTime = Date.now();
         };
-
+        
         let edgeSwipeDetected = false;
-
+        
         const handleTouchEnd = (e) => {
           const touchEndY = e.changedTouches[0].screenY;
+          const touchEndTime = Date.now();
           const deltaY = touchStartY - touchEndY;
-
+          const deltaTime = touchEndTime - touchStartTime;
+          const velocity = deltaY / deltaTime;
+        
           const currentCard = steps[currentStep];
           const content = currentCard.querySelector(".step-content");
           if (!content) return;
-
+        
           const threshold = 0.9;
-          const isScrollable =
-            content.scrollHeight > content.clientHeight * threshold;
-
+          const isScrollable = content.scrollHeight > content.clientHeight * threshold;
+        
           const atTop = content.scrollTop <= 0;
-          const atBottom =
-            content.scrollTop + content.clientHeight >=
-            content.scrollHeight - 2;
-
-          const swipingDown = deltaY > 50;
-          const swipingUp = deltaY < -50;
-
+          const atBottom = content.scrollTop + content.clientHeight >= content.scrollHeight - 2;
+        
+          const minVelocity = 0.3;
+          const swipingDown = velocity > minVelocity;
+          const swipingUp = velocity < -minVelocity;
+        
           const wantsNext = swipingDown && currentStep < steps.length - 1;
           const wantsPrev = swipingUp && currentStep > 0;
-
+        
           if (!isScrollable) {
             if (wantsNext) scrollToStep(currentStep + 1);
             else if (wantsPrev) scrollToStep(currentStep - 1);
             return;
           }
-
+        
           const reachedEdgeAndWantsNext = swipingDown && atBottom && wantsNext;
           const reachedEdgeAndWantsPrev = swipingUp && atTop && wantsPrev;
-
+        
           if (reachedEdgeAndWantsNext || reachedEdgeAndWantsPrev) {
             if (edgeSwipeDetected) {
               scrollToStep(currentStep + (reachedEdgeAndWantsNext ? 1 : -1));
@@ -903,7 +919,7 @@
           } else {
             edgeSwipeDetected = false;
           }
-        };
+        };        
 
         let isTouchScrollingContent = false;
 
