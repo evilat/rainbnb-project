@@ -91,7 +91,7 @@
         align-items: center;
         justify-content: center;
         background-color: #1a1d2b;
-        padding: 2rem;
+        padding: 2.5rem 0 0 0;
         color: white;
         border: none;
       }
@@ -104,10 +104,8 @@
         overflow: auto;
         text-align: center;
         max-height: 100dvh;
-        max-width: 80vw;
-      }
-
-      .step-content {
+        width: 100vw;
+        max-width: 100vw;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -153,18 +151,6 @@
         font-weight: bold;
         cursor: pointer;
         transition: all 0.3s ease-in-out;
-      }
-
-      .side-nav button.active {
-        background-color: #ffc107;
-        color: #000;
-        transform: scale(1.2) translateX(10px);
-        border-radius: 1rem;
-      }
-
-      .side-nav button:hover {
-        background-color: #ffc107;
-        color: #000;
       }
 
       .arrow-nav {
@@ -233,33 +219,26 @@
 
       @media (min-width: 768px) {
         .step-content {
-          flex-direction: row;
-          text-align: left;
-          gap: 2rem;
-          justify-content: center;
-          align-items: flex-start;
-          padding-right: 1rem;
+          padding: 1rem 0;
         }
 
         .step-img {
           max-width: 250px;
           width: 100%;
-          border-radius: 0.5rem;
-          position: sticky;
-          top: 70px;
+          border-radius: 0.75rem;
           flex-shrink: 0;
         }
 
-        .step-content h3,
         .step-content p {
           max-width: 400px;
+          margin-bottom: 2rem;
         }
 
         .step-content h3 {
           max-width: 100vw;
-          font-size: 2rem;
+          font-size: 1.5rem;
           position: absolute;
-          top: 30px;
+          top: 4px;
           margin-bottom: 1rem;
         }
 
@@ -267,6 +246,18 @@
           font-size: 1rem;
           max-height: 75vh;
           line-height: 1.6;
+        }
+
+        .side-nav button.active {
+          background-color: #ffc107;
+          color: #000;
+          transform: scale(1.2) translateX(10px);
+          border-radius: 1rem;
+        }
+
+        .side-nav button:hover {
+          background-color: #ffc107;
+          color: #000;
         }
       }
 
@@ -354,10 +345,6 @@
             title: "Install SafePal",
             body: [
               {
-                type: "img",
-                src: "https://placehold.co/360x640/000000/FFFFFF?font=source-sans-pro&text=Install+SafePal",
-              },
-              {
                 type: "content",
                 html: `Download SafePal from the 
         <a href="https://play.google.com/store/apps/details?id=io.safepal.wallet" style="text-decoration: none; " target="_blank">
@@ -370,114 +357,111 @@
             ],
           },
           {
-            title: "Create an Account",
+            title: "Create Account",
             body: [
-              {
-                type: "img",
-                src: "https://placehold.co/360x640/000000/FFFFFF?font=source-sans-pro&text=Create+Account",
-              },
+              { type: "img", src: "img/screenshots/start.jpg" },
+              { type: "content", html: "Click create new wallet button" },
+              { type: "img", src: "img/screenshots/password.jpg" },
               {
                 type: "content",
-                html: `Open the SafePal app after installation. Select "Create Wallet" and follow the on-screen prompts. 
-          Choose a strong password and confirm your agreement to the terms. 
-          Once completed, your wallet will be created locally on your device.`,
+                html: "Enter a 6 digit password and remember it, this will be used to verify you. It may also ask if you want to add a fingerprint for easier verification.",
+              },
+              { type: "img", src: "img/screenshots/ready-to-backup.jpg" },
+              { type: "content", html: "Click Back up now" },
+            ],
+          },
+          {
+            title: "Back up mnemonic phrase",
+            body: [
+              { type: "img", src: "img/screenshots/backup.jpg" },
+              { type: "content", html: "Select back up manually" },
+              { type: "img", src: "img/screenshots/backup-manual.jpg" },
+              {
+                type: "content",
+                html: `Check the three checkboxes and click 'Understood'. Then it will give you a 12-word mnemonic phrase. You can write it down or take a photo of it using another phone. After that, you will be asked to verify the phrase by entering it.`,
               },
             ],
           },
           {
-            title: "Backup Mnemonic Phrase",
+            title: "Setup your wallet",
             body: [
-              {
-                type: "img",
-                src: "https://placehold.co/360x640/000000/FFFFFF?font=source-sans-pro&text=Backup",
-              },
+              { type: "img", src: "img/screenshots/wallet.jpg" },
               {
                 type: "content",
-                html: `SafePal will generate a 12/24-word mnemonic phrase. This is your master key.
-          <br><br>
-          Write these words down in order and store them in a secure, offline place. 
-          Never take a screenshot or share your phrase with anyone. Losing it means you lose access to your wallet permanently.`,
+                html: "Right now your wallet will show many coins. Click the three dots as highlighted in the image.",
+              },
+              { type: "img", src: "img/screenshots/dropdown.jpg" },
+              {
+                type: "content",
+                html: "In the dropdown, click 'Manage coins'. It will take you to a new screen.",
+              },
+              { type: "img", src: "img/screenshots/manage-coin.jpg" },
+              {
+                type: "content",
+                html: "Deselect every coin from this list that is selected and then go to search.",
+              },
+              { type: "img", src: "img/screenshots/manage-coin-search.jpg" },
+              { type: "content", html: "Search 'opbnb' here." },
+              { type: "img", src: "img/screenshots/search-opbnb-coin.jpg" },
+              {
+                type: "content",
+                html: "Select the first one from the list that says BNB (opBNB).",
+              },
+              { type: "img", src: "img/screenshots/wallet-ready.jpg" },
+              { type: "content", html: "Your wallet will now look like this." },
+            ],
+          },
+          {
+            title: "Add Assets",
+            body: [
+              {
+                type: "content",
+                html: "Add BNB (opBNB) worth a minimum of 35 USDT. You can buy it through our WhatsApp helpline number: +1234567890.",
               },
             ],
           },
           {
-            title: "Add OPBNB",
+            title: "Go to DApp",
             body: [
-              {
-                type: "img",
-                src: "https://placehold.co/360x640/000000/FFFFFF?font=source-sans-pro&text=Add+OPBNB",
-              },
+              { type: "img", src: "img/screenshots/explore-popup.jpg" },
               {
                 type: "content",
-                html: `To use dApps on the OPBNB chain, you'll need some OPBNB tokens.
-          <br><br>
-          You can send OPBNB from a centralized exchange (like Binance) to your SafePal wallet address. 
-          Make sure to select the correct OPBNB network and send at least $35 worth to cover gas and onboarding costs.`,
+                html: `Go to the Explore tab using bottom navigation. You will see this popup — checkmark "I know how to use DApps very well, skip this guide." Then the "View DApp Store" button will be enabled — click it.`,
+              },
+              { type: "img", src: "img/screenshots/explore.jpg" },
+              {
+                type: "content",
+                html: "Click on the search bar and it will take you to a new page.",
+              },
+              { type: "img", src: "img/screenshots/explore-url.jpg" },
+              {
+                type: "content",
+                html: "Type or paste this URL in the top address bar: <strong>getrise.pro</strong>",
+              },
+              { type: "img", src: "img/screenshots/explore-netwrok-opbnb.jpg" },
+              {
+                type: "content",
+                html: "In the second search bar, type 'opBNB' and select the opBNB network. Then click 'Go' in the top-right corner next to the address bar.",
+              },
+              { type: "img", src: "img/screenshots/explore-warning.jpg" },
+              {
+                type: "content",
+                html: "You'll see a warning — checkmark 'Don't remind me next time' if you don't want to receive it again, then click 'Confirm'. You'll be redirected to the DApp.",
               },
             ],
           },
           {
-            title: "Explore RISE",
+            title: "Register on RainBNB",
             body: [
-              {
-                type: "img",
-                src: "https://placehold.co/360x640/000000/FFFFFF?font=source-sans-pro&text=Explore",
-              },
+              { type: "img", src: "img/screenshots/dapp-error.jpg" },
               {
                 type: "content",
-                html: `In the SafePal app, go to the "DApp" or "Explore" tab at the bottom.
-        <br><br>
-        In the search bar, enter: 
-        <div style="padding: 8px; border-radius: 6px; font-weight: bold;">getrise.pro</div>
-        This will open the RISE platform where you can start your journey.`,
+                html: "You may see this error — it's normal. Close it from the lower close button (not the upper one, as that exits the DApp).",
               },
-            ],
-          },
-          {
-            title: "Login",
-            body: [
-              {
-                type: "img",
-                src: "https://placehold.co/360x640/000000/FFFFFF?font=source-sans-pro&text=Login",
-              },
+              { type: "img", src: "img/screenshots/dapp-register.jpg" },
               {
                 type: "content",
-                html: `On the RISE website (getrise.pro), click the "Connect Wallet" button.
-          <br><br>
-          Choose SafePal as your wallet provider. Confirm the connection in the app.
-          You are now logged in and ready to explore features within RISE.`,
-              },
-            ],
-          },
-          {
-            title: "Upgrade to Ambassador",
-            body: [
-              {
-                type: "img",
-                src: "https://placehold.co/360x640/000000/FFFFFF?font=source-sans-pro&text=Upgrade",
-              },
-              {
-                type: "content",
-                html: `Inside the RISE dashboard, go to your account section.
-          <br><br>
-          Follow the steps to upgrade your level — this may include completing tasks, referring others, and holding a certain amount of OPBNB.
-          <br><br>
-          Reach the Ambassador level to unlock advanced features and higher earning potential.`,
-              },
-            ],
-          },
-          {
-            title: "Share Referral Code",
-            body: [
-              {
-                type: "img",
-                src: "https://placehold.co/360x640/000000/FFFFFF?font=source-sans-pro&text=Refer+your+friends",
-              },
-              {
-                type: "content",
-                html: `After becoming an Ambassador, navigate to your profile or dashboard to find your unique referral code.
-          <br><br>
-          Copy this code and share it with your network. When others sign up using your code, you’ll earn rewards and bonuses.`,
+                html: "You will be redirected to the registration screen. Click the 'Register' button to pay the registration fee.",
               },
             ],
           },
@@ -826,19 +810,32 @@
         };
 
         const handleWheel = (e) => {
-          e.preventDefault();
-
           const now = Date.now();
           if (now - lastWheelTime < 200) return;
           lastWheelTime = now;
 
           const direction = e.deltaY;
 
-          if (handleScrollableStepContent(direction)) return;
+          const stepContent = steps[currentStep].querySelector(".step-content");
+          if (
+            stepContent &&
+            stepContent.scrollHeight > stepContent.clientHeight
+          ) {
+            const atTop = stepContent.scrollTop === 0;
+            const atBottom =
+              stepContent.scrollTop + stepContent.clientHeight >=
+              stepContent.scrollHeight - 1;
+
+            if ((direction > 0 && !atBottom) || (direction < 0 && !atTop)) {
+              return;
+            }
+          }
 
           if (direction > 0 && currentStep < steps.length - 1) {
+            e.preventDefault();
             scrollToStep(currentStep + 1);
           } else if (direction < 0 && currentStep > 0) {
+            e.preventDefault();
             scrollToStep(currentStep - 1);
           }
         };
@@ -954,7 +951,7 @@
         };
 
         const setupEventListeners = () => {
-          addListener(window, "wheel", handleWheel, { passive: false });
+          addListener(window, "wheel", handleWheel, { passive: true });
           addListener(window, "keydown", handleKey);
           addListener(container, "touchstart", handleTouchStart, {
             passive: false,
