@@ -16,13 +16,16 @@
           "Noto Color Emoji";
       }
 
+      a {
+        text-decoration: none;
+      }
+
       html {
         scroll-behavior: smooth;
       }
 
       html,
       body {
-        height: 100%;
         margin: 0;
         background-color: #0d0f1a;
         color: #f8f9fa;
@@ -33,33 +36,243 @@
       }
 
       .main-header {
-        height: 100dvh;
-        background-color: #0d0f1a;
         display: flex;
-        flex-direction: column;
         align-items: center;
-        justify-content: center;
-        text-align: center;
-        color: #f8f9fa;
-        padding: 2rem;
+        height: 100%;
+        position: relative;
+        background: #000000;
       }
 
-      .header-content h1 {
-        font-size: 3rem;
-        margin: 0;
+      .main-header a {
+        position: absolute;
+        left: 50%;
+        bottom: 0;
       }
 
-      .header-content p {
+      .main-content {
+        position: relative;
+        z-index: 2;
+        padding: 60px 20px;
+      }
+
+      .crypto-title {
+        font-size: 5rem;
+        font-weight: 900;
+        color: #ffffff;
+        margin-bottom: 25px;
+        text-align: left;
+        font-family: "Poppins", sans-serif;
+        letter-spacing: -2px;
+        line-height: 0.9;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.1),
+          0 0 20px rgba(255, 193, 7, 0.1), 1px 1px 2px rgba(0, 0, 0, 0.3);
+      }
+
+      .crypto-title .bnb-text {
+        color: #ffc107;
+        text-shadow: 0 0 15px rgba(255, 193, 7, 0.4),
+          0 0 30px rgba(255, 193, 7, 0.2), 1px 1px 2px rgba(0, 0, 0, 0.3);
+      }
+
+      .crypto-tagline {
         font-size: 1.5rem;
-        margin-top: 1rem;
+        color: #b8bcc8;
+        margin-bottom: 30px;
+        font-weight: 400;
+        text-align: left;
+        font-family: "Poppins", sans-serif;
+        line-height: 1.4;
+        max-width: 90%;
+      }
+
+      .app-screenshot {
+        position: relative;
+        max-width: 100%;
+        height: auto;
+        border-radius: 15px;
+      }
+
+      .stage-light-container {
+        position: relative;
+        display: inline-block;
+      }
+      .stage-light-container::after {
+        content: "";
+        position: absolute;
+        top: -50vh;
+        left: 70%;
+        transform: translateX(-50%) perspective(100vh) rotateX(45deg);
+        width: 800px;
+        height: 900px;
+        background: linear-gradient(
+          180deg,
+          rgba(26, 29, 43, 1) 0%,
+          rgba(26, 29, 43, 0.8) 20%,
+          rgba(26, 29, 43, 0.6) 40%,
+          rgba(26, 29, 43, 0.4) 60%,
+          rgba(26, 29, 43, 0.2) 80%,
+          transparent 100%
+        );
+        filter: blur(25px);
+        pointer-events: none;
+        z-index: -1;
+        animation: stage-light-flicker 4s ease-in-out infinite 0.5s;
+      }
+      .main-header::before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 60%;
+        background: linear-gradient(
+          180deg,
+          transparent 0%,
+          rgba(26, 29, 43, 0.3) 25%,
+          rgba(26, 29, 43, 0.5) 50%,
+          rgba(26, 29, 43, 0.8) 75%,
+          rgba(26, 29, 43, 1) 100%
+        );
+        pointer-events: none;
+        z-index: 1;
+      }
+
+      @keyframes stage-light-flicker {
+        0%,
+        100% {
+          opacity: 0.8;
+        }
+        25% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.9;
+        }
+        75% {
+          opacity: 0.95;
+        }
+      }
+
+      @keyframes ambient-glow {
+        0%,
+        100% {
+          opacity: 0.6;
+        }
+        50% {
+          opacity: 0.9;
+        }
+      }
+
+      .floating-particles {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        pointer-events: none;
+      }
+
+      .particle {
+        position: absolute;
+        background: rgba(255, 193, 7, 0.6);
+        border-radius: 50%;
+      }
+
+      @media (max-width: 1200px) {
+        .crypto-title {
+          font-size: 4.5rem;
+        }
+        .crypto-tagline {
+          font-size: 1.3rem;
+        }
+        .main-content {
+          padding: 50px 20px;
+        }
+        .stage-light-container::after {
+          width: 700px;
+          height: 800px;
+          transform: translateX(-50%) perspective(80vh) rotateX(40deg);
+        }
+      }
+
+      @media (max-width: 992px) {
+        .crypto-title {
+          font-size: 4rem;
+          text-align: center;
+        }
+        .crypto-tagline {
+          font-size: 1.2rem;
+          text-align: center;
+          max-width: 100%;
+        }
+        .main-content {
+          padding: 40px 20px;
+        }
+        .stage-light-container {
+          margin-top: 30px;
+          text-align: center;
+        }
+        .app-screenshot {
+          max-width: 75%;
+        }
+
+        .stage-light-container::after {
+          display: none;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .crypto-title {
+          font-size: 3.5rem;
+          letter-spacing: -1px;
+        }
+        .crypto-tagline {
+          font-size: 1.1rem;
+        }
+        .main-content {
+          padding: 30px 15px;
+        }
+        .app-screenshot {
+          max-width: 80%;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .crypto-title {
+          font-size: 2.8rem;
+          letter-spacing: -0.5px;
+        }
+        .crypto-tagline {
+          font-size: 1rem;
+          line-height: 1.3;
+        }
+        .main-content {
+          padding: 25px 15px;
+        }
+        .app-screenshot {
+          max-width: 85%;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .crypto-title {
+          font-size: 2.4rem;
+        }
+        .crypto-tagline {
+          font-size: 0.95rem;
+        }
+        .main-content {
+          padding: 20px 12px;
+        }
+        .app-screenshot {
+          max-width: 100%;
+        }
       }
 
       .scroll-img {
         position: absolute;
         width: calc(1.375rem + 1.5vw);
-        bottom: 20px;
+        bottom: 10px;
         filter: brightness(0) invert(1) drop-shadow(0 0 8px white);
-        filter: white;
         animation: floatUpDown 3s ease-in-out infinite;
       }
 
@@ -102,7 +315,7 @@
 
       .step-content {
         overflow: auto;
-        text-align: center;
+        text-align: left;
         max-height: 100dvh;
         width: 100vw;
         max-width: 100vw;
@@ -230,6 +443,10 @@
         }
 
         .step-content p {
+          font-size: 1rem;
+          max-height: 75vh;
+          line-height: 1.6;
+          width: 100%;
           max-width: 400px;
           margin-bottom: 2rem;
         }
@@ -240,12 +457,6 @@
           position: absolute;
           top: 4px;
           margin-bottom: 1rem;
-        }
-
-        .step-content p {
-          font-size: 1rem;
-          max-height: 75vh;
-          line-height: 1.6;
         }
 
         .side-nav button.active {
@@ -267,11 +478,23 @@
         }
 
         .step-content {
-          padding: 0;
+          padding: 0 3rem;
+          text-align: left;
+        }
+
+        .step-img {
+          margin-bottom: 0.5rem;
+          max-width: 220px;
         }
 
         .step-content h3 {
           margin: 1rem 0rem 1rem;
+          font-size: 1.25rem;
+        }
+
+        .step-content p {
+          max-width: 220px;
+          margin-bottom: 2rem;
         }
 
         .scroll-img {
@@ -295,7 +518,10 @@
         }
 
         .side-nav button.active {
-          transform: unset;
+          background-color: #ffc107;
+          color: #000;
+          transform: scale(1.2) translateX(10px);
+          border-radius: 0.75rem;
         }
 
         .arrow-nav {
@@ -317,8 +543,35 @@
   </head>
   <body>
     <header class="main-header">
-      <h1>Welcome to RainBNB</h1>
-      <p>Your decentralized travel companion</p>
+      <div class="floating-particles" id="particles"></div>
+
+      <div class="container-fluid main-content">
+        <div class="row align-items-center min-vh-100">
+          <div class="col-lg-6 col-md-12">
+            <div class="ps-lg-4">
+              <h1 class="crypto-title">
+                Rain<span class="bnb-text">BNB</span>
+              </h1>
+              <p class="crypto-tagline">
+                Learn how to earn money with RainBNB and discover the future of
+                decentralized hospitality
+              </p>
+            </div>
+          </div>
+
+          <div class="col-lg-6 col-md-12">
+            <div class="pe-lg-4">
+              <div class="stage-light-container">
+                <img
+                  src="img/header-app-screenshot.png"
+                  alt="RainBNB App Screenshot"
+                  class="app-screenshot img-fluid"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <a href="#stepSection"
         ><img
           class="scroll-img"
@@ -337,9 +590,118 @@
       </div>
       <div class="scroll-container" id="scrollContainer"></div>
     </section>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+      // Particle Configuration Variables
+      const PARTICLE_CONFIG = {
+        maxParticles: 20, // Maximum number of particles on screen
+        spawnRate: 500, // Milliseconds between particle spawns
+        size: {
+          min: 1, // Minimum particle size in pixels
+          max: 3, // Maximum particle size in pixels
+        },
+        speed: {
+          min: 4, // Minimum animation duration in seconds
+          max: 8, // Maximum animation duration in seconds
+        },
+        direction: {
+          startX: 0, // Starting X position (0-100%)
+          endX: 100, // Ending X position (0-100%)
+          startY: 100, // Starting Y position (100 = bottom of screen)
+          endY: -10, // Ending Y position (-10 = above screen)
+        },
+        opacity: {
+          start: 0, // Starting opacity
+          peak: 1, // Peak opacity
+          end: 0, // Ending opacity
+        },
+        lifetime: 8000, // Total particle lifetime in milliseconds
+        color: "rgba(255, 193, 7, 0.6)", // Particle color
+      };
+
+      function createParticles() {
+        const container = document.getElementById("particles");
+
+        setInterval(() => {
+          if (container.children.length < PARTICLE_CONFIG.maxParticles) {
+            const particle = document.createElement("div");
+            particle.className = "particle";
+
+            const size =
+              Math.random() *
+                (PARTICLE_CONFIG.size.max - PARTICLE_CONFIG.size.min) +
+              PARTICLE_CONFIG.size.min;
+            particle.style.width = size + "px";
+            particle.style.height = size + "px";
+
+            particle.style.background = PARTICLE_CONFIG.color;
+
+            const startX =
+              Math.random() *
+                (PARTICLE_CONFIG.direction.endX -
+                  PARTICLE_CONFIG.direction.startX) +
+              PARTICLE_CONFIG.direction.startX;
+            particle.style.left = startX + "%";
+
+            const duration =
+              Math.random() *
+                (PARTICLE_CONFIG.speed.max - PARTICLE_CONFIG.speed.min) +
+              PARTICLE_CONFIG.speed.min;
+            particle.style.animationDuration = duration + "s";
+
+            const endX = startX + (Math.random() * 20 - 10);
+            const animationName =
+              "float-" +
+              Date.now() +
+              "-" +
+              Math.random().toString(36).substr(2, 9);
+
+            const keyframes = `
+                    @keyframes ${animationName} {
+                        0% {
+                            transform: translateY(${
+                              PARTICLE_CONFIG.direction.startY
+                            }vh) translateX(0px);
+                            opacity: ${PARTICLE_CONFIG.opacity.start};
+                        }
+                        10% {
+                            opacity: ${PARTICLE_CONFIG.opacity.peak};
+                        }
+                        90% {
+                            opacity: ${PARTICLE_CONFIG.opacity.peak};
+                        }
+                        100% {
+                            transform: translateY(${
+                              PARTICLE_CONFIG.direction.endY
+                            }vh) translateX(${endX - startX}vw);
+                            opacity: ${PARTICLE_CONFIG.opacity.end};
+                        }
+                    }
+                `;
+
+            const style = document.createElement("style");
+            style.textContent = keyframes;
+            document.head.appendChild(style);
+
+            particle.style.animation = `${animationName} ${duration}s linear infinite`;
+            container.appendChild(particle);
+
+            setTimeout(() => {
+              if (particle.parentNode) {
+                particle.parentNode.removeChild(particle);
+              }
+              if (style.parentNode) {
+                style.parentNode.removeChild(style);
+              }
+            }, PARTICLE_CONFIG.lifetime);
+          }
+        }, PARTICLE_CONFIG.spawnRate);
+      }
+
       Top = document.documentElement.scrollTop = 0;
       document.addEventListener("DOMContentLoaded", () => {
+        createParticles();
+
         const stepsData = [
           {
             title: "Install SafePal",
@@ -371,7 +733,7 @@
             ],
           },
           {
-            title: "Back up mnemonic phrase",
+            title: "Backup mnemonic phrase",
             body: [
               { type: "img", src: "img/screenshots/backup.jpg" },
               { type: "content", html: "Select back up manually" },
@@ -626,59 +988,6 @@
 
         const easeOutExpo = (t) => 1 - Math.pow(2, -10 * t) * (t < 1 ? 1 : 0);
 
-        const handleScrollableStepContent = (direction, isTouch = false) => {
-          const currentCard = steps[currentStep];
-          const content = currentCard.querySelector(".step-content");
-          const delay = isTouch ? 300 : 100;
-
-          if (!content || content.scrollHeight <= window.innerHeight) {
-            return false;
-          }
-
-          const normalizedDirection = direction > 0 ? 1 : -1;
-          const scrollStep = window.innerHeight * 0.9;
-          const targetScrollTop =
-            content.scrollTop + normalizedDirection * scrollStep;
-          const maxScrollTop = content.scrollHeight - content.clientHeight;
-
-          const willScroll =
-            (normalizedDirection > 0 && content.scrollTop < maxScrollTop) ||
-            (normalizedDirection < 0 && content.scrollTop > 0);
-
-          if (willScroll) {
-            content.scrollTo({
-              top: Math.min(Math.max(0, targetScrollTop), maxScrollTop),
-              behavior: "smooth",
-            });
-            return true;
-          }
-
-          if (
-            normalizedDirection > 0 &&
-            currentStep === steps.length - 1 &&
-            content.scrollTop >= maxScrollTop - 10
-          ) {
-            return true;
-          }
-
-          if (handleScrollableStepContent._timeout)
-            clearTimeout(handleScrollableStepContent._timeout);
-
-          handleScrollableStepContent._timeout = setTimeout(() => {
-            handleScrollableStepContent._edgeReached = true;
-          }, delay);
-
-          if (handleScrollableStepContent._edgeReached) {
-            handleScrollableStepContent._edgeReached = false;
-            return false;
-          }
-
-          return true;
-        };
-
-        handleScrollableStepContent._timeout = null;
-        handleScrollableStepContent._edgeReached = false;
-
         const scrollToStep = (step) => {
           if (step === currentStep || step < 0 || step >= steps.length) return;
 
@@ -748,7 +1057,7 @@
           }
 
           const start = container.scrollTop;
-          const end = step * stepHeight;
+          const end = step * window.innerHeight;
           const change = end - start;
           const duration = 500;
           let startTime = null;
@@ -979,7 +1288,6 @@
           container = document.getElementById("scrollContainer");
           steps = document.querySelectorAll(".step-card");
           navButtons = document.querySelectorAll("#stepNav button");
-          stepHeight = window.innerHeight;
 
           setupNavButtons();
           setupEventListeners();
