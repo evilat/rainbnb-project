@@ -1,126 +1,38 @@
-// Particles and first step of scroll section
+// header go round
+window.addEventListener("scroll", function () {
+  const nav = document.querySelector("nav");
+  if (window.scrollY > 20) {
+    nav.classList.add("shrink");
+  } else {
+    nav.classList.remove("shrink");
+  }
+});
 
-const PARTICLE_CONFIG = {
-  maxParticles: 20,
-  spawnRate: 500,
-  size: { min: 1, max: 3 },
-  speed: { min: 4, max: 8 },
-  direction: { startX: 0, endX: 100, startY: 100, endY: -10 },
-  opacity: { start: 0, peak: 1, end: 0 },
-  lifetime: 8000,
-  color: "rgba(255, 193, 7, 0.6)",
-};
+// nav hamburger
+const toggleBtn = document.querySelector(".nav-toggle");
+const navMenu = document.querySelector(".nav-menu");
 
-let particleInterval = null;
+toggleBtn.addEventListener("click", () => {
+  toggleBtn.classList.toggle("collapsed");
+  navMenu.classList.toggle("open");
+});
 
-function startParticleSpawning(container) {
-  if (particleInterval) return;
-
-  particleInterval = setInterval(() => {
-    if (container.children.length < PARTICLE_CONFIG.maxParticles) {
-      const particle = document.createElement("div");
-      particle.className = "particle";
-
-      const size =
-        Math.random() *
-          (PARTICLE_CONFIG.size.max - PARTICLE_CONFIG.size.min) +
-        PARTICLE_CONFIG.size.min;
-      particle.style.width = size + "px";
-      particle.style.height = size + "px";
-      particle.style.background = PARTICLE_CONFIG.color;
-
-      const startX =
-        Math.random() *
-          (PARTICLE_CONFIG.direction.endX -
-            PARTICLE_CONFIG.direction.startX) +
-        PARTICLE_CONFIG.direction.startX;
-      particle.style.left = startX + "%";
-
-      const duration =
-        Math.random() *
-          (PARTICLE_CONFIG.speed.max - PARTICLE_CONFIG.speed.min) +
-        PARTICLE_CONFIG.speed.min;
-      particle.style.animationDuration = duration + "s";
-
-      const endX = startX + (Math.random() * 20 - 10);
-      const animationName =
-        "float-" +
-        Date.now() +
-        "-" +
-        Math.random().toString(36).substr(2, 9);
-
-      const keyframes = `
-        @keyframes ${animationName} {
-          0% {
-            transform: translateY(${PARTICLE_CONFIG.direction.startY}vh) translateX(0px);
-            opacity: ${PARTICLE_CONFIG.opacity.start};
-          }
-          10%, 90% {
-            opacity: ${PARTICLE_CONFIG.opacity.peak};
-          }
-          100% {
-            transform: translateY(${PARTICLE_CONFIG.direction.endY}vh) translateX(${endX - startX}vw);
-            opacity: ${PARTICLE_CONFIG.opacity.end};
-          }
-        }
-      `;
-
-      const style = document.createElement("style");
-      style.textContent = keyframes;
-      document.head.appendChild(style);
-
-      particle.style.animation = `${animationName} ${duration}s linear infinite`;
-      container.appendChild(particle);
-
-      setTimeout(() => {
-        if (particle.parentNode) particle.parentNode.removeChild(particle);
-        if (style.parentNode) style.parentNode.removeChild(style);
-      }, PARTICLE_CONFIG.lifetime);
-    }
-  }, PARTICLE_CONFIG.spawnRate);
-}
-
-function stopParticleSpawning() {
-  clearInterval(particleInterval);
-  particleInterval = null;
-}
-
-function observeParticlesVisibility() {
-  const container = document.getElementById("particles");
-
-  const observer = new IntersectionObserver(
-    ([entry]) => {
-      if (entry.isIntersecting) {
-        startParticleSpawning(container);
-      } else {
-        stopParticleSpawning();
-      }
-    },
-    { threshold: 0.3 }
-  );
-
-  observer.observe(container);
-}
-
+// scroll stuff
 history.scrollRestoration = "manual";
 window.onbeforeload = function () {
   window.scrollTo(0, 0);
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-  observeParticlesVisibility();      
-
   const stepsData = [
     {
       title: "Install SafePal",
       body: [
         {
           type: "content",
-          html: `Download SafePal from the 
-  <a href="https://play.google.com/store/apps/details?id=io.safepal.wallet" style="text-decoration: none; " target="_blank">
+          html: `<a href="https://play.google.com/store/apps/details?id=io.safepal.wallet" target="_blank">
     <img class="store-badge" src="img/playstore-badge.png" alt="Play Store Badge">
-  </a> or 
-  <a href="https://apps.apple.com/app/id1548297139" style="text-decoration: none; " target="_blank">
+  </a><a href="https://apps.apple.com/app/id1548297139" target="_blank">
     <img class="store-badge" src="img/appstore-badge.svg" alt="App Store Badge">
   </a>`,
         },
@@ -129,56 +41,68 @@ document.addEventListener("DOMContentLoaded", () => {
     {
       title: "Create Account",
       body: [
-        { type: "img", src: "img/screenshots/start.jpg" },
-        { type: "content", html: "Click create new wallet button" },
-        { type: "img", src: "img/screenshots/password.jpg" },
+        { type: "img", src: "img/screenshots/crops/start.jpg" },
         {
           type: "content",
-          html: "Enter a 6 digit password and remember it, this will be used to verify you. It may also ask if you want to add a fingerprint for easier verification.",
+          html: `Click <span class="highlight-text">create new wallet</span> button`,
         },
-        { type: "img", src: "img/screenshots/ready-to-backup.jpg" },
-        { type: "content", html: "Click Back up now" },
+        { type: "img", src: "img/screenshots/crops/password.jpg" },
+        {
+          type: "content",
+          html: `Enter a <span class="highlight-text">6 digit password</span> and remember it. This will be used to verify you. It may also ask if you want to add a <span class="highlight-text">fingerprint</span> for easier verification.`,
+        },
+        { type: "img", src: "img/screenshots/crops/ready-to-backup.jpg" },
+        {
+          type: "content",
+          html: `Click <span class="highlight-text">Back up now</span>`,
+        },
       ],
     },
     {
       title: "Backup mnemonic phrase",
       body: [
-        { type: "img", src: "img/screenshots/backup.jpg" },
-        { type: "content", html: "Select back up manually" },
-        { type: "img", src: "img/screenshots/backup-manual.jpg" },
+        { type: "img", src: "img/screenshots/crops/backup.jpg" },
         {
           type: "content",
-          html: `Check the three checkboxes and click 'Understood'. Then it will give you a 12-word mnemonic phrase. You can write it down or take a photo of it using another phone. After that, you will be asked to verify the phrase by entering it.`,
+          html: `Select <span class="highlight-text">back up manually</span>`,
+        },
+        { type: "img", src: "img/screenshots/crops/backup-manual.jpg" },
+        {
+          type: "content",
+          html: `Check the <span class="highlight-text">three checkboxes</span> and click <span class="highlight-text">'Understood'</span>. Then it will give you a <span class="highlight-text">12-word mnemonic phrase</span>. You can write it down or take a photo using another phone. After that, you will be asked to <span class="highlight-text">verify the phrase</span> by entering it.`,
         },
       ],
     },
     {
       title: "Setup your wallet",
       body: [
-        { type: "img", src: "img/screenshots/wallet.jpg" },
+        { type: "img", src: "img/screenshots/crops/wallet.jpg" },
         {
           type: "content",
-          html: "Right now your wallet will show many coins. Click the three dots as highlighted in the image.",
+          html: `Right now your wallet will show many coins. Click the <span class="highlight-text">three dots</span> as highlighted in the image.`,
         },
-        { type: "img", src: "img/screenshots/dropdown.jpg" },
+        { type: "img", src: "img/screenshots/crops/dropdown.jpg" },
         {
           type: "content",
-          html: "In the dropdown, click 'Manage coins'. It will take you to a new screen.",
+          html: `In the dropdown, click <span class="highlight-text">'Manage coins'</span>. It will take you to a new screen.`,
         },
-        { type: "img", src: "img/screenshots/manage-coin.jpg" },
+        { type: "img", src: "img/screenshots/crops/manage-coin.jpg" },
         {
           type: "content",
-          html: "Deselect every coin from this list that is selected and then go to search.",
+          html: `Deselect <span class="highlight-text">every coin</span> from this list that is selected and then go to <span class="highlight-text">search</span>.`,
         },
-        { type: "img", src: "img/screenshots/manage-coin-search.jpg" },
-        { type: "content", html: "Search 'opbnb' here." },
-        { type: "img", src: "img/screenshots/search-opbnb-coin.jpg" },
+        { type: "img", src: "img/screenshots/crops/manage-coin-search.jpg" },
         {
           type: "content",
-          html: "Select the first one from the list that says BNB (opBNB).",
+          html: `Search <span class="highlight-text">'opbnb'</span> here.`,
         },
-        { type: "img", src: "img/screenshots/wallet-ready.jpg" },
-        { type: "content", html: "Your wallet will now look like this." },
+        { type: "img", src: "img/screenshots/crops/search-opbnb-coin.jpg" },
+        {
+          type: "content",
+          html: `Select the first one from the list that says <span class="highlight-text">BNB (opBNB)</span>.`,
+        },
+        { type: "img", src: "img/screenshots/crops/wallet-ready.jpg" },
+        { type: "content", html: `Your wallet will now look like this.` },
       ],
     },
     {
@@ -186,52 +110,52 @@ document.addEventListener("DOMContentLoaded", () => {
       body: [
         {
           type: "content",
-          html: "Add BNB (opBNB) worth a minimum of 35 USDT. You can buy it through our WhatsApp helpline number: +1234567890.",
+          html: `Add <span class="highlight-text">BNB (opBNB)</span> worth a minimum of <span class="highlight-text">35 USDT</span>. You can buy it through our WhatsApp helpline number: <span class="highlight-text">+1234567890</span>.`,
         },
       ],
     },
     {
       title: "Go to DApp",
       body: [
-        { type: "img", src: "img/screenshots/explore-popup.jpg" },
+        { type: "img", src: "img/screenshots/crops/explore-popup.jpg" },
         {
           type: "content",
-          html: `Go to the Explore tab using bottom navigation. You will see this popup — checkmark "I know how to use DApps very well, skip this guide." Then the "View DApp Store" button will be enabled — click it.`,
+          html: `Go to the <span class="highlight-text">Explore</span> tab using bottom navigation. You will see this popup — checkmark <span class="highlight-text">"I know how to use DApps very well, skip this guide."</span> Then the <span class="highlight-text">"View DApp Store"</span> button will be enabled — click it.`,
         },
-        { type: "img", src: "img/screenshots/explore.jpg" },
+        { type: "img", src: "img/screenshots/crops/explore.jpg" },
         {
           type: "content",
-          html: "Click on the search bar and it will take you to a new page.",
+          html: `Click on the <span class="highlight-text">search bar</span> and it will take you to a new page.`,
         },
-        { type: "img", src: "img/screenshots/explore-url.jpg" },
+        { type: "img", src: "img/screenshots/crops/explore-url.jpg" },
         {
           type: "content",
-          html: "Type or paste this URL in the top address bar: <strong>getrise.pro</strong>",
+          html: `Type or paste this URL in the top address bar: <span class="highlight-text">getrise.pro</span>`,
         },
-        { type: "img", src: "img/screenshots/explore-netwrok-opbnb.jpg" },
+        { type: "img", src: "img/screenshots/crops/explore-netwrok-opbnb.jpg" },
         {
           type: "content",
-          html: "In the second search bar, type 'opBNB' and select the opBNB network. Then click 'Go' in the top-right corner next to the address bar.",
+          html: `In the second search bar, type <span class="highlight-text">'opBNB'</span> and select the <span class="highlight-text">opBNB network</span>. Then click <span class="highlight-text">'Go'</span> in the top-right corner next to the address bar.`,
         },
-        { type: "img", src: "img/screenshots/explore-warning.jpg" },
+        { type: "img", src: "img/screenshots/crops/explore-warning.jpg" },
         {
           type: "content",
-          html: "You'll see a warning — checkmark 'Don't remind me next time' if you don't want to receive it again, then click 'Confirm'. You'll be redirected to the DApp.",
+          html: `You'll see a warning — checkmark <span class="highlight-text">'Don't remind me next time'</span> if you don't want to receive it again, then click <span class="highlight-text">'Confirm'</span>. You'll be redirected to the DApp.`,
         },
       ],
     },
     {
       title: "Register on RainBNB",
       body: [
-        { type: "img", src: "img/screenshots/dapp-error.jpg" },
+        { type: "img", src: "img/screenshots/crops/dapp-error.jpg" },
         {
           type: "content",
-          html: "You may see this error — it's normal. Close it from the lower close button (not the upper one, as that exits the DApp).",
+          html: `You may see this error — it's normal. Close it from the <span class="highlight-text">lower close button</span> (not the upper one, as that exits the DApp).`,
         },
-        { type: "img", src: "img/screenshots/dapp-register.jpg" },
+        { type: "img", src: "img/screenshots/crops/dapp-register.jpg" },
         {
           type: "content",
-          html: "You will be redirected to the registration screen. Click the 'Register' button to pay the registration fee.",
+          html: `You will be redirected to the registration screen. Click the <span class="highlight-text">'Register'</span> button to pay the registration fee.`,
         },
       ],
     },
@@ -444,18 +368,12 @@ let stepScroll = (() => {
       };
 
       setTimeout(() => {
-        window.addEventListener("wheel", onStepZeroWheel, {
-          passive: false,
-        });
+        window.addEventListener("wheel", onStepZeroWheel, { passive: false });
       }, 100);
 
       setTimeout(() => {
-        window.addEventListener("touchstart", onTouchStart, {
-          passive: false,
-        });
-        window.addEventListener("touchend", onTouchEnd, {
-          passive: false,
-        });
+        window.addEventListener("touchstart", onTouchStart, { passive: false });
+        window.addEventListener("touchend", onTouchEnd, { passive: false });
       }, 300);
     }
 
@@ -464,9 +382,10 @@ let stepScroll = (() => {
       scrollAnimationFrame = null;
     }
 
+    const stepElement = steps[step];
+    const targetTop = stepElement.offsetTop;
     const start = container.scrollTop;
-    const end = step * window.innerHeight;
-    const change = end - start;
+    const change = targetTop - start;
     const duration = 500;
     let startTime = null;
 
@@ -527,12 +446,19 @@ let stepScroll = (() => {
     const direction = e.deltaY;
 
     const stepContent = steps[currentStep].querySelector(".step-content");
-    if (stepContent && stepContent.scrollHeight > stepContent.clientHeight) {
+    // console.log(`stepContent.scrollHeight: ${stepContent.scrollHeight}`);
+    // console.log(`window.innerHeight: ${window.innerHeight}`);
+    // console.log(`stepContent.scrollTop: ${stepContent.scrollTop}`);
+    // console.log(`atBottom value1: ${Math.ceil(stepContent.scrollTop + window.innerHeight)}`);
+    // console.log(`atBottom value2: ${Math.floor(stepContent.scrollHeight - 1)}`);
+    if (stepContent && stepContent.scrollHeight > window.innerHeight) {
       const atTop = stepContent.scrollTop === 0;
       const atBottom =
-        stepContent.scrollTop + stepContent.clientHeight >=
-        stepContent.scrollHeight - 1;
+        Math.ceil(stepContent.scrollTop + window.innerHeight) >=
+        Math.floor(stepContent.scrollHeight - 1);
 
+      // console.log(`atTop: ${atTop}`);
+      // console.log(`atBottom: ${atBottom}`);
       if ((direction > 0 && !atBottom) || (direction < 0 && !atTop)) {
         return;
       }
@@ -570,12 +496,12 @@ let stepScroll = (() => {
     if (!content) return;
 
     const threshold = 0.9;
-    const isScrollable =
-      content.scrollHeight > content.clientHeight * threshold;
+    const isScrollable = content.scrollHeight > window.innerHeight * threshold;
 
     const atTop = content.scrollTop <= 0;
     const atBottom =
-      content.scrollTop + content.clientHeight >= content.scrollHeight - 2;
+      Math.ceil(content.scrollTop + window.innerHeight) >=
+      Math.floor(content.scrollHeight - 1);
 
     const swipingDown = deltaY > 50;
     const swipingUp = deltaY < -50;
@@ -605,41 +531,6 @@ let stepScroll = (() => {
       }
     } else {
       edgeSwipeDetected = true;
-    }
-  };
-
-  let isTouchScrollingContent = false;
-
-  const handleTouchMove = (e) => {
-    const currentCard = steps[currentStep];
-    const content = currentCard.querySelector(".step-content");
-
-    if (!content) return;
-
-    const touchY = e.changedTouches
-      ? e.changedTouches[0].screenY
-      : e.touches[0].screenY;
-    const deltaY = touchStartY - touchY;
-
-    const maxScroll = content.scrollHeight - content.clientHeight;
-
-    if (content.scrollHeight > content.clientHeight) {
-      const scrollTop = content.scrollTop;
-
-      if (
-        (deltaY > 0 && scrollTop >= maxScroll) ||
-        (deltaY < 0 && scrollTop <= 0)
-      ) {
-        isTouchScrollingContent = false;
-      } else {
-        isTouchScrollingContent = true;
-      }
-    }
-
-    if (isTouchScrollingContent) {
-      if (e.cancelable) e.stopPropagation();
-    } else {
-      if (e.cancelable) e.preventDefault();
     }
   };
 
@@ -677,6 +568,8 @@ let stepScroll = (() => {
 
   const init = () => {
     document.body.classList.add("no-scroll");
+    const nav = document.querySelector("nav");
+    nav.classList.add("hidden");
     document
       .querySelectorAll(".step-content")
       .forEach((el) => el.classList.remove("overflow-hidden"));
@@ -693,6 +586,8 @@ let stepScroll = (() => {
 
   const destroy = () => {
     document.body.classList.remove("no-scroll");
+    const nav = document.querySelector("nav");
+    nav.classList.remove("hidden");
     document
       .querySelectorAll(".step-content")
       .forEach((el) => el.classList.add("overflow-hidden"));
